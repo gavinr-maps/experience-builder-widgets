@@ -21,10 +21,10 @@ const Widget = (props: AllWidgetProps<IMConfig>) => {
 
   const selectRecord = (id: string) => {
     if (mainDataSource) {
-      console.log('calling .selectRecordsByIds() for ID:', id);
+      console.log('calling .selectRecordsByIds() for ID: ', id);
       mainDataSource.selectRecordsByIds([id]);
-      console.log('selected record ids:', JSON.stringify(mainDataSource.getSelectedRecordIds()));
-      console.log('selected records:', JSON.stringify(mainDataSource.getSelectedRecords()));
+      console.log('selected record ids: ', JSON.stringify(mainDataSource.getSelectedRecordIds()));
+      console.log('selected records: ', JSON.stringify(mainDataSource.getSelectedRecords()));
     }
   }
 
