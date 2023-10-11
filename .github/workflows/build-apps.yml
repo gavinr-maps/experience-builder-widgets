@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Download Experience Builder
         run: npx arcgis-lib-downloader -p arcgis-experience-builder -v 1.12 -t Download
         env:
