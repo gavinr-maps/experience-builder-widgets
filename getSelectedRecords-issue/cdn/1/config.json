@@ -1,0 +1,164 @@
+{
+  "pages": {
+    "page_0": {
+      "id": "page_0",
+      "mode": "FIT_WINDOW",
+      "type": "NORMAL",
+      "layout": {
+        "LARGE": "layout_0"
+      },
+      "isDefault": true,
+      "isVisible": true,
+      "label": "Page"
+    }
+  },
+  "layouts": {
+    "layout_0": {
+      "type": "GRID",
+      "content": {
+        "0": {
+          "type": "WIDGET",
+          "bbox": {
+            "width": 74.06
+          },
+          "widgetId": "widget_1",
+          "gridType": 3,
+          "parent": "2"
+        },
+        "1": {
+          "type": "WIDGET",
+          "bbox": {
+            "width": 25.94
+          },
+          "widgetId": "widget_2",
+          "gridType": 3,
+          "parent": "2"
+        },
+        "2": {
+          "gridType": 0,
+          "bbox": {
+            "width": 100
+          },
+          "children": [
+            "1",
+            "0"
+          ]
+        }
+      },
+      "order": [
+        "0",
+        "1"
+      ],
+      "setting": {
+        "rootItem": "2"
+      }
+    },
+    "layout_1": {
+      "type": "FIXED",
+      "label": "Map FixedLayout"
+    }
+  },
+  "exbVersion": "1.12.0",
+  "mainSizeMode": "LARGE",
+  "theme": "themes/default/",
+  "forBuilderAttributes": {
+    "lockLayout": false
+  },
+  "template": "blankfullscreengrid",
+  "widgets": {
+    "widget_1": {
+      "uri": "widgets/arcgis/arcgis-map/",
+      "version": "1.12.0",
+      "label": "Map",
+      "config": {
+        "toolConfig": {
+          "canZoom": true,
+          "canHome": true,
+          "canSearch": true,
+          "canNavigation": true,
+          "canSelect": true,
+          "canSelectState": true
+        },
+        "isUseCustomMapState": false
+      },
+      "id": "widget_1",
+      "layouts": {
+        "MapFixedLayout": {
+          "LARGE": "layout_1"
+        }
+      },
+      "useDataSources": [
+        {
+          "dataSourceId": "dataSource_1",
+          "mainDataSourceId": "dataSource_1"
+        }
+      ]
+    },
+    "widget_2": {
+      "uri": "widgets/getSelectedRecords-issue-demo-widget/",
+      "version": "1.12.0",
+      "label": "getSelectedRecords Issue Widget",
+      "config": {
+        "exampleConfigProperty": "test"
+      },
+      "id": "widget_2",
+      "useMapWidgetIds": [
+        "widget_1"
+      ],
+      "useDataSourcesEnabled": true,
+      "useDataSources": [
+        {
+          "dataSourceId": "dataSource_1-18b1f271f83-layer-2",
+          "mainDataSourceId": "dataSource_1-18b1f271f83-layer-2",
+          "rootDataSourceId": "dataSource_1"
+        }
+      ]
+    }
+  },
+  "widgetsManifest": {},
+  "views": {},
+  "sections": {},
+  "dialogs": {},
+  "dataSources": {
+    "dataSource_1": {
+      "id": "dataSource_1",
+      "type": "WEB_MAP",
+      "sourceLabel": "Demo Map - USA States Generalized",
+      "itemId": "19883736b2bf45209dd5f092208f6a89",
+      "portalUrl": "https://prof-services.maps.arcgis.com"
+    }
+  },
+  "messageConfigs": {},
+  "originExbVersion": "1.12.0",
+  "pageStructure": [
+    {
+      "page_0": []
+    }
+  ],
+  "timestamp": 1697035873536,
+  "historyLabels": {
+    "pages": {
+      "page_0": [
+        null
+      ]
+    }
+  },
+  "attributes": {
+    "portalUrl": "https://prof-services.maps.arcgis.com",
+    "isWebTier": false,
+    "clientId": "",
+    "title": "getSelectedRecords Issue",
+    "description": "",
+    "type": "Web Experience",
+    "thumbnail": null
+  },
+  "sharedThemeVariables": {
+    "header": {},
+    "body": {},
+    "button": {},
+    "logo": {
+      "small": null,
+      "link": null
+    }
+  }
+}
