@@ -1,0 +1,64 @@
+name: Build and Deploy Apps
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  Build-and-Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Download Experience Builder
+        run: npx arcgis-lib-downloader -p arcgis-experience-builder -v 1.12 -t Download
+        env:
+          ARCGIS_LIB_DOWNLOADER_USERNAME: ${{ secrets.ARCGIS_LIB_DOWNLOADER_USERNAME }}
+          ARCGIS_LIB_DOWNLOADER_PASSWORD: ${{ secrets.ARCGIS_LIB_DOWNLOADER_PASSWORD }}
+      - name: Unzip Experience Builder
+        run: unzip -q arcgis-experience-builder-1.12.zip -d arcgis-experience-builder-1.12
+      - name: Copy Custom Widgets
+        run: cp -r widgets/* arcgis-experience-builder-1.12/ArcGISExperienceBuilder/client/your-extensions/widgets
+      - name: Create apps directory
+        run: mkdir public && cd public && mkdir apps && cd apps
+        working-directory: arcgis-experience-builder-1.12/ArcGISExperienceBuilder/server
+      - name: Copy apps
+        run: cp -r apps/* arcgis-experience-builder-1.12/ArcGISExperienceBuilder/server/public/apps
+      - name: NPM install client folder
+        run: npm ci
+        working-directory: arcgis-experience-builder-1.12/ArcGISExperienceBuilder/client
+      - name: NPM install in server folder
+        run: npm ci
+        working-directory: arcgis-experience-builder-1.12/ArcGISExperienceBuilder/server
+      - name: Build widgets
+        run: npm run build:dev
+        working-directory: arcgis-experience-builder-1.12/ArcGISExperienceBuilder/client
+      - name: Loop through all apps
+        working-directory: arcgis-experience-builder-1.12/ArcGISExperienceBuilder
+        run: find ./server/public/apps/* -mindepth 0 -maxdepth 0 -type d -exec bash -c "basename {} | node -e 'var fs = require(\"fs\");var stdinBuffer = fs.readFileSync(0);var folderName=stdinBuffer.toString().trim();require(\"./server/src/middlewares/dev/apps/app-download.js\").zipApp(folderName, folderName+\".zip\")'" \;
+      - name: Create build folder
+        working-directory: arcgis-experience-builder-1.12/ArcGISExperienceBuilder
+        run: mkdir build
+      - name: Move zips
+        working-directory: arcgis-experience-builder-1.12/ArcGISExperienceBuilder
+        run: mv *.zip build
+      - name: Unzip all
+        working-directory: arcgis-experience-builder-1.12/ArcGISExperienceBuilder/build
+        run: find -name '*.zip' -exec sh -c 'unzip -d "${1%.*}" "$1"' _ {} \;
+      - name: Delete zips
+        working-directory: arcgis-experience-builder-1.12/ArcGISExperienceBuilder/build
+        run: rm *.zip
+      - name: Generate screeenshots
+        working-directory: arcgis-experience-builder-1.12/ArcGISExperienceBuilder/build
+        continue-on-error: true
+        run: |
+          npm install --global pageres-cli
+          npm install --global serve
+          echo "{\"trailingSlash\":true}" > serve.json
+          serve . -p 5000 &
+          for D in *; do [ -d "${D}" ] && pageres http://localhost:5000/${D}/index.html 1024x768 --filename=${D}/screenshot --delay=10; done
+      - name: Deploy app zip to GH Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages
+          folder: arcgis-experience-builder-1.12/ArcGISExperienceBuilder/build

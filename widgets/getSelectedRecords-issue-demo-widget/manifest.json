@@ -1,0 +1,17 @@
+{
+  "name": "getSelectedRecords-issue-demo-widget",
+  "label": "getSelectedRecords Issue Widget",
+  "type": "widget",
+  "version": "1.12.0",
+  "exbVersion": "1.12.0",
+  "author": "Gavin Rehkemper",
+  "description": "Demo of the issue we're running into.",
+  "copyright": "",
+  "license": "",
+  "properties": {},
+  "translatedLocales": ["en"],
+  "defaultSize": {
+    "width": 300,
+    "height": 100
+  }
+}
